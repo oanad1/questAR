@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "943514060308",
+    "firebase_url": "https://questar-89584.firebaseio.com",
+    "project_id": "questar-89584",
+    "storage_bucket": "questar-89584.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943514060308:android:0c94d95d3d330144710901",
+        "android_client_info": {
+          "package_name": "com.example.questar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943514060308-hp99dbq77656759spaa4se83fq23iep5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqkH9LgZtpHzbU2fdY8YpWJFJSB56q3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943514060308-hp99dbq77656759spaa4se83fq23iep5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "943514060308-av45rkkj0p95bak0f00641pic3kaed43.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.questar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
