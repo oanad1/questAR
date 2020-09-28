@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'signupPage.dart';
-import 'signinPage.dart';
+import 'Startup/signupPage.dart';
+import 'Startup/signinPage.dart';
 
 void main() {
   runApp(MaterialApp(

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:questar/meniu.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:questar/signupPage.dart';
-import 'fbapi.dart';
+import 'file:///C:/Users/oanad/geo_ar/lib/Startup/passwordReset.dart';
+import 'file:///C:/Users/oanad/geo_ar/lib/Startup/signupPage.dart';
+import 'authentication.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,46 +18,12 @@ class _LoginPageState  extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  bool _isLoading = false;
-  FToast fToast;
+   bool _visible = false;
 
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(context);
     Paint.enableDithering = true;
-  }
-
-  _showToast() {
-    Widget toast = Column(
-      children:  <Widget>[
-        SizedBox(height: 105.0),
-        Container(
-          width: 280,
-          height:40,
-          padding: EdgeInsets.all(11.0),
-        decoration: BoxDecoration(
-          color: Color(0x00000000),
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-          child: Text("Wrong email or password",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xffaa494c),
-              fontSize: 15.0,
-              fontFamily: 'OpenSans',
-              fontWeight: FontWeight.w500
-            ),
-          ),
-       )],
-    );
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.TOP,
-      toastDuration: Duration(seconds: 30),
-    );
   }
 
   Widget _buildEmailField() {
@@ -141,7 +106,9 @@ class _LoginPageState  extends State<LoginPage> {
     return Container(
       //alignment: Alignment.topRight,
       child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
+        onPressed: () { Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PasswordResetPage()));
+        setState((){_visible = false;});},
         child: Text(
             'Forgot Password?',
             style: TextStyle(
@@ -162,21 +129,15 @@ class _LoginPageState  extends State<LoginPage> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
         ),
-        onPressed: () async {
-          setState(() => _isLoading = true);
-
-          try {
-          final FirebaseUser user = (await
-          FirebaseAuth.instance.signInWithEmailAndPassword(
-              email:  _emailController.text,
-              password:  _passwordController.text)).user;
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MeniuPage()));
-          } catch(e){
-            print(e.message);
-            _showToast();
-          };
-        },
+        onPressed: () {
+          setState((){_visible = false;});
+          Future.delayed(const Duration(milliseconds: 200), () async{
+           bool _tempVisible = await firebase_signin(_emailController,
+               _passwordController, context);
+           setState((){_visible = _tempVisible;
+           });
+          });
+          },
         child: Ink(
             decoration: BoxDecoration(
               color: Color(0xff045872),
@@ -283,31 +244,33 @@ class _LoginPageState  extends State<LoginPage> {
 
   Widget _buildCreateAccountButton() {
       return
-                  Row(
-                      children: <Widget>[
-                         SizedBox(width: 80),
-                          Text(
-                          "Don't have an account? ",
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                                letterSpacing: 0.5,
-                              )),
-                        InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => SignUpPage()));
-                            },
-                          child: new Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15,
-                              letterSpacing: 0.5
-                            ))),
-                  ]);
+        Row(
+            children: <Widget>[
+              SizedBox(width: 80),
+              Text(
+                  "Don't have an account? ",
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    letterSpacing: 0.5,
+                  )),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(
+                        builder: (context) => SignUpPage()));
+                    setState((){_visible = false;});
+                    },
+                  child: new Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                      ))),
+            ]);
   }
 
   @override
@@ -356,7 +319,23 @@ class _LoginPageState  extends State<LoginPage> {
                               fontSize: 42.0,
                               ),
                         )),
-                        SizedBox(height: 40.0),
+                        SizedBox(height: 10.0),
+                        AnimatedOpacity(
+                            opacity: _visible ? 1.0 : 0.0,
+                            duration: Duration(milliseconds: 250),
+                            child: Container(
+                              width: 280.0,
+                              height: 20.0,
+                              child: Text(
+                                'Wrong email or password.',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans (
+                                  color: Color(0xffD44638).withOpacity(0.8),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                            )),
                         _buildEmailField(),
                         SizedBox(height: 5.0),
                         _buildPasswordField(),

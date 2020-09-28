@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:questar/meniu.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'fbapi.dart';
+import 'authentication.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -20,46 +18,13 @@ class _SignUpPageState  extends State<SignUpPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _rePasswordController = TextEditingController();
 
-  bool _isLoading = false;
-  FToast fToast;
+  bool _visible = false;
+  String _errorMsg;
 
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(context);
     Paint.enableDithering = true;
-  }
-
-  _showToast(String msg) {
-    Widget toast = Column(
-      children:  <Widget>[
-        SizedBox(height: 105.0),
-        Container(
-          width: 280,
-          height:40,
-          padding: EdgeInsets.all(11.0),
-          decoration: BoxDecoration(
-            color: Color(0x00000000),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          child: Text(msg,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Color(0xffaa494c),
-                fontSize: 15.0,
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.w500
-            ),
-          ),
-        )],
-    );
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.TOP,
-      toastDuration: Duration(seconds: 30),
-    );
   }
 
   Widget _buildEmailTF() {
@@ -92,7 +57,8 @@ class _SignUpPageState  extends State<SignUpPage> {
                     color: Colors.white.withOpacity(0.3),
                   )),
               hintText: 'Email',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 14.0,
+                  color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -130,7 +96,8 @@ class _SignUpPageState  extends State<SignUpPage> {
                     color: Colors.white.withOpacity(0.3),
                   )),
               hintText: 'Username',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 14.0,
+                  color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -169,7 +136,8 @@ class _SignUpPageState  extends State<SignUpPage> {
                     color: Colors.white.withOpacity(0.3),
                   )),
               hintText: 'Password',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 14.0,
+                  color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -207,7 +175,8 @@ class _SignUpPageState  extends State<SignUpPage> {
                     color: Colors.white.withOpacity(0.3),
                   )),
               hintText: 'Confirm Password',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 14.0,
+                  color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -215,7 +184,7 @@ class _SignUpPageState  extends State<SignUpPage> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildSignUpBtn() {
     return Container(
         width: 280.0,
         child: RaisedButton(
@@ -224,26 +193,17 @@ class _SignUpPageState  extends State<SignUpPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          onPressed: () async {
-            if(_passwordController.text == _rePasswordController.text){
-              try {
-                FirebaseUser user = (await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                  email: _emailController.text,
-                  password: _passwordController.text,)).user;
-                if(user != null){
-                  UserUpdateInfo updateUser = UserUpdateInfo();
-                  updateUser.displayName = _userController.text;
-                  user.updateProfile(updateUser);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MeniuPage()));}
-                } catch(e){
-                  print(e.message);
-                  _showToast(e.message);
-                };
-            } else {
-              _showToast("Password does not match");
-            }
-          },
+          onPressed: () {
+            setState((){_visible = false;});
+            Future.delayed(const Duration(milliseconds: 200), () async{
+               _errorMsg = await firebase_signup(_emailController,
+                  _userController, _passwordController, _rePasswordController,
+                  context);
+              setState((){
+                if(_errorMsg != null) _visible = true;
+              });
+            });
+            },
           child: Ink(
               decoration: BoxDecoration(
                 color: Color(0xff045872),
@@ -273,6 +233,13 @@ class _SignUpPageState  extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Color(0xff0b1540),
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
+        ),
         body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
           child: GestureDetector(
@@ -300,10 +267,9 @@ class _SignUpPageState  extends State<SignUpPage> {
                           physics: AlwaysScrollableScrollPhysics(),
                           padding: EdgeInsets.symmetric(
                             horizontal: 10.0,
-                            vertical: 140,
+                            vertical: 70,
                           ),
                           child: Column (
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Align(
                                     alignment: Alignment.center,
@@ -316,7 +282,24 @@ class _SignUpPageState  extends State<SignUpPage> {
                                         fontSize: 42.0,
                                       ),
                                     )),
-                                SizedBox(height: 30.0),
+                                SizedBox(height: 10.0),
+                                AnimatedOpacity(
+                                    opacity: _visible ? 1.0 : 0.0,
+                                    duration: Duration(milliseconds: 250),
+                                    child: Container(
+                                      width: 280.0,
+                                      height: 40.0,
+                                      alignment: Alignment.bottomCenter,
+                                      child: Text(
+                                        (_errorMsg != null)? _errorMsg: "",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.openSans (
+                                          color: Color(0xffD44638).withOpacity(0.8),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14.0,
+                                        ),
+                                      ),
+                                    )),
                                 _buildEmailTF(),
                                 SizedBox(height: 5.0),
                                 _buildUserTF(),
@@ -325,7 +308,7 @@ class _SignUpPageState  extends State<SignUpPage> {
                                 SizedBox(height: 5.0),
                                 _buildRePasswordTF(),
                                 SizedBox(height: 15.0),
-                                _buildLoginBtn(),
+                                _buildSignUpBtn(),
                               ]
                           ),
                         )
