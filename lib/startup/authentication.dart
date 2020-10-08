@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:questar/meniu.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<String> firebase_signup(
     TextEditingController _emailController,

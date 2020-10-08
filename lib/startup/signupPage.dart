@@ -27,22 +27,21 @@ class _SignUpPageState  extends State<SignUpPage> {
     Paint.enableDithering = true;
   }
 
-  Widget _buildEmailTF() {
+  Widget _createEmailField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -50,14 +49,11 @@ class _SignUpPageState  extends State<SignUpPage> {
                 Icons.email,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+              ),
               hintText: 'Email',
-              hintStyle: TextStyle(fontSize: 14.0,
+              hintStyle: TextStyle(fontSize: 13.0,
                   color: Colors.white.withOpacity(0.6)),
             ),
           ),
@@ -66,7 +62,7 @@ class _SignUpPageState  extends State<SignUpPage> {
     );
   }
 
-  Widget _buildUserTF() {
+  Widget _createUserField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -74,14 +70,14 @@ class _SignUpPageState  extends State<SignUpPage> {
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _userController,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -89,14 +85,11 @@ class _SignUpPageState  extends State<SignUpPage> {
                 Icons.person,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+              ),
               hintText: 'Username',
-              hintStyle: TextStyle(fontSize: 14.0,
+              hintStyle: TextStyle(fontSize: 13.0,
                   color: Colors.white.withOpacity(0.6)),
             ),
           ),
@@ -106,7 +99,7 @@ class _SignUpPageState  extends State<SignUpPage> {
   }
 
 
-  Widget _buildPasswordTF() {
+  Widget _createPasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -114,14 +107,14 @@ class _SignUpPageState  extends State<SignUpPage> {
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _passwordController,
             obscureText: true,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -129,14 +122,11 @@ class _SignUpPageState  extends State<SignUpPage> {
                 Icons.lock,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+              ),
               hintText: 'Password',
-              hintStyle: TextStyle(fontSize: 14.0,
+              hintStyle: TextStyle(fontSize: 13.0,
                   color: Colors.white.withOpacity(0.6)),
             ),
           ),
@@ -145,7 +135,7 @@ class _SignUpPageState  extends State<SignUpPage> {
     );
   }
 
-  Widget _buildRePasswordTF() {
+  Widget _createRePasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -153,14 +143,14 @@ class _SignUpPageState  extends State<SignUpPage> {
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _rePasswordController,
             obscureText: true,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -168,14 +158,11 @@ class _SignUpPageState  extends State<SignUpPage> {
                 Icons.lock,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+              ),
               hintText: 'Confirm Password',
-              hintStyle: TextStyle(fontSize: 14.0,
+              hintStyle: TextStyle(fontSize: 13.0,
                   color: Colors.white.withOpacity(0.6)),
             ),
           ),
@@ -184,9 +171,9 @@ class _SignUpPageState  extends State<SignUpPage> {
     );
   }
 
-  Widget _buildSignUpBtn() {
+  Widget _createSignupButton() {
     return Container(
-        width: 280.0,
+        width: 220.0,
         child: RaisedButton(
           padding: const EdgeInsets.all(0.0),
           elevation: 2.0,
@@ -206,19 +193,19 @@ class _SignUpPageState  extends State<SignUpPage> {
             },
           child: Ink(
               decoration: BoxDecoration(
-                color: Color(0xff045872),
+                color: Color(0xff3c6488),
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Container(
                 width: 300,
-                padding: EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(10.0),
                 child: Text(
                   'SIGN UP',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.6),
                     letterSpacing: 1.5,
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'OpenSans',
                   ),
@@ -235,7 +222,7 @@ class _SignUpPageState  extends State<SignUpPage> {
         key: _scaffoldKey,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color(0xff0b1540),
+          backgroundColor: Color(0xff181a33),
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here
           ),
@@ -254,8 +241,8 @@ class _SignUpPageState  extends State<SignUpPage> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Color(0xff0b1540),
-                            Color(0xff00a5b2),
+                            Color(0xff191b34),
+                            Color(0xff3d678b),
                           ],
                           stops: [0, 1],
                         ),
@@ -267,7 +254,7 @@ class _SignUpPageState  extends State<SignUpPage> {
                           physics: AlwaysScrollableScrollPhysics(),
                           padding: EdgeInsets.symmetric(
                             horizontal: 10.0,
-                            vertical: 70,
+                            vertical: 50,
                           ),
                           child: Column (
                               children: <Widget>[
@@ -279,16 +266,15 @@ class _SignUpPageState  extends State<SignUpPage> {
                                         color: Colors.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w400,
                                         letterSpacing: 3,
-                                        fontSize: 42.0,
+                                        fontSize: 35.0,
                                       ),
                                     )),
-                                SizedBox(height: 10.0),
                                 AnimatedOpacity(
                                     opacity: _visible ? 1.0 : 0.0,
                                     duration: Duration(milliseconds: 250),
                                     child: Container(
                                       width: 280.0,
-                                      height: 40.0,
+                                      height: 30.0,
                                       alignment: Alignment.bottomCenter,
                                       child: Text(
                                         (_errorMsg != null)? _errorMsg: "",
@@ -296,19 +282,19 @@ class _SignUpPageState  extends State<SignUpPage> {
                                         style: GoogleFonts.openSans (
                                           color: Color(0xffD44638).withOpacity(0.8),
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 14.0,
+                                          fontSize: 12.0,
                                         ),
                                       ),
                                     )),
-                                _buildEmailTF(),
+                                _createEmailField(),
                                 SizedBox(height: 5.0),
-                                _buildUserTF(),
+                                _createUserField(),
                                 SizedBox(height: 5.0),
-                                _buildPasswordTF(),
+                                _createPasswordField(),
                                 SizedBox(height: 5.0),
-                                _buildRePasswordTF(),
-                                SizedBox(height: 15.0),
-                                _buildSignUpBtn(),
+                                _createRePasswordField(),
+                                SizedBox(height: 40.0),
+                                _createSignupButton(),
                               ]
                           ),
                         )

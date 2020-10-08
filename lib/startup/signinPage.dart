@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:questar/meniu.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'file:///C:/Users/oanad/geo_ar/lib/Startup/passwordReset.dart';
-import 'file:///C:/Users/oanad/geo_ar/lib/Startup/signupPage.dart';
+import 'package:questar/startup/passwordReset.dart';
+import 'package:questar/startup/signupPage.dart';
 import 'authentication.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,29 +20,39 @@ class _LoginPageState  extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
 
    bool _visible = false;
+  bool _buildLoginScreen = false;
 
   @override
   void initState() {
     super.initState();
     Paint.enableDithering = true;
+
+    /*FirebaseAuth.instance.currentUser().then((user) => () {
+      if (user == null)
+        setState(() {
+          _buildLoginScreen = true;
+        });
+      else
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => MeniuPage()));
+    }()); */
   }
 
-  Widget _buildEmailField() {
+  Widget _createEmailField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -49,14 +60,11 @@ class _LoginPageState  extends State<LoginPage> {
                 Icons.email,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+              ),
               hintText: 'Email',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 13.0, color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -64,7 +72,7 @@ class _LoginPageState  extends State<LoginPage> {
     );
   }
 
-  Widget _buildPasswordField() {
+  Widget _createPasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -72,14 +80,14 @@ class _LoginPageState  extends State<LoginPage> {
         Container(
           alignment: Alignment.centerLeft,
           height: 45.0,
-          width: 280,
+          width: 260,
           child: TextField(
             controller: _passwordController,
             obscureText: true,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontFamily: 'OpenSans',
-              fontSize: 14.0,
+              fontSize: 13.0,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 15.0),
@@ -87,14 +95,10 @@ class _LoginPageState  extends State<LoginPage> {
                 Icons.lock,
                 color: Colors.white.withOpacity(0.7),
               ),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withOpacity(0.3),
-                  )),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.3))),
               hintText: 'Password',
-              hintStyle: TextStyle(fontSize: 14.0, color: Colors.white.withOpacity(0.6)),
+              hintStyle: TextStyle(fontSize: 13.0, color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
@@ -102,7 +106,7 @@ class _LoginPageState  extends State<LoginPage> {
     );
   }
 
-   Widget _buildForgotPasswordBtn() {
+   Widget _createForgotPasswordButton() {
     return Container(
       //alignment: Alignment.topRight,
       child: FlatButton(
@@ -112,7 +116,7 @@ class _LoginPageState  extends State<LoginPage> {
         child: Text(
             'Forgot Password?',
             style: TextStyle(
-              color: Colors.black38,
+              color: Color(0xff191b34).withOpacity(0.8),
               fontSize: 14.0,
             )
         ),
@@ -120,9 +124,9 @@ class _LoginPageState  extends State<LoginPage> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _createSigninButton() {
     return Container(
-      width: 280.0,
+      width: 220.0,
       child: RaisedButton(
         padding: const EdgeInsets.all(0.0),
         elevation: 2.0,
@@ -140,19 +144,19 @@ class _LoginPageState  extends State<LoginPage> {
           },
         child: Ink(
             decoration: BoxDecoration(
-              color: Color(0xff045872),
+              color: Color(0xff3c6488),
                 borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: Container(
               width: 300,
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 'LOGIN',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.6),
                   letterSpacing: 1.5,
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'OpenSans',
                   ),
@@ -163,23 +167,8 @@ class _LoginPageState  extends State<LoginPage> {
     );
   }
 
-  Widget _buildSignInWithText() {
-    return Column(
-      children: <Widget>[
-        Text(
-            'Social Media Login',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.4),
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              letterSpacing: 1,
-            )),
-      ],
-    );
-  }
 
-
-  Widget _buildSocialBtnRow() {
+  Widget _createSocialButtons() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
@@ -188,8 +177,8 @@ class _LoginPageState  extends State<LoginPage> {
           GestureDetector(
             onTap:  () => print('Login with Facebook'),
             child: Container(
-              height: 44.0,
-              width: 44.0,
+              height: 40.0,
+              width: 40.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 //borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -197,7 +186,7 @@ class _LoginPageState  extends State<LoginPage> {
               ),
               child: Row(
                   children: <Widget>[
-                    SizedBox(width: 17),
+                    SizedBox(width: 16),
                   Image.asset('assets/logos/facebooklogo.png', height: 18),
               ]),
             ),
@@ -206,8 +195,8 @@ class _LoginPageState  extends State<LoginPage> {
           GestureDetector(
             onTap:  () => print('Login with Google'),
             child: Container(
-              height: 44.0,
-              width: 44.0,
+              height: 40.0,
+              width: 40.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                // borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -215,7 +204,7 @@ class _LoginPageState  extends State<LoginPage> {
               ),
               child: Row(
                   children: <Widget>[
-                    SizedBox(width: 14.0),
+                    SizedBox(width: 13.0),
                     Image.asset('assets/logos/googlelogo.png', height: 18),
                   ]),
             ),
@@ -224,15 +213,15 @@ class _LoginPageState  extends State<LoginPage> {
           GestureDetector(
             onTap:  () => print('Login with Twitter'),
             child: Container(
-              height: 44.0,
-              width: 44.0,
+              height: 40.0,
+              width: 40.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                   color: Color(0xff1da1f2)
               ),
               child: Row(
                   children: <Widget>[
-                    SizedBox(width: 13.0),
+                    SizedBox(width: 11.0),
                     Image.asset('assets/logos/twitterlogo.png', height: 18),
                   ]),
             ),
@@ -245,14 +234,14 @@ class _LoginPageState  extends State<LoginPage> {
   Widget _buildCreateAccountButton() {
       return
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(width: 80),
               Text(
                   "Don't have an account? ",
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.7),
                     fontWeight: FontWeight.w400,
-                    fontSize: 15,
+                    fontSize: 14,
                     letterSpacing: 0.5,
                   )),
               InkWell(
@@ -267,7 +256,7 @@ class _LoginPageState  extends State<LoginPage> {
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.8),
                         fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        fontSize: 14,
                         letterSpacing: 0.5,
                       ))),
             ]);
@@ -292,8 +281,8 @@ class _LoginPageState  extends State<LoginPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xff0b1540),
-                      Color(0xff00a5b2),
+                      Color(0xff191b34),
+                      Color(0xff3d678b),
                     ],
                     stops: [0, 1],
                   ),
@@ -307,7 +296,7 @@ class _LoginPageState  extends State<LoginPage> {
                   child: Column (
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 90.0),
+                        SizedBox(height: 70.0),
                         Align(
                             alignment: Alignment.center,
                             child: Text(
@@ -316,37 +305,37 @@ class _LoginPageState  extends State<LoginPage> {
                               color: Colors.white.withOpacity(0.7),
                               fontWeight: FontWeight.w400,
                               letterSpacing: 3,
-                              fontSize: 42.0,
+                              fontSize: 35.0,
                               ),
                         )),
-                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
                         AnimatedOpacity(
                             opacity: _visible ? 1.0 : 0.0,
                             duration: Duration(milliseconds: 250),
                             child: Container(
                               width: 280.0,
                               height: 20.0,
+                              alignment: Alignment.bottomCenter,
                               child: Text(
                                 'Wrong email or password.',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.openSans (
                                   color: Color(0xffD44638).withOpacity(0.8),
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14.0,
+                                  fontSize: 12.0,
                                 ),
                               ),
                             )),
-                        _buildEmailField(),
                         SizedBox(height: 5.0),
-                        _buildPasswordField(),
-                        SizedBox(height: 15.0),
-                        _buildLoginBtn(),
-                        _buildForgotPasswordBtn(),
-                        SizedBox(height: 40.0),
-                        _buildSignInWithText(),
+                        _createEmailField(),
                         SizedBox(height: 5.0),
-                        _buildSocialBtnRow(),
-                        SizedBox(height: 25.0),
+                        _createPasswordField(),
+                        SizedBox(height: 30.0),
+                        _createSigninButton(),
+                        _createForgotPasswordButton(),
+                        SizedBox(height: 50.0),
+                        _createSocialButtons(),
+                        SizedBox(height: 20.0),
                         _buildCreateAccountButton()
                   ]
                   ),

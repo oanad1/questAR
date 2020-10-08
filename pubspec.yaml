@@ -31,7 +31,7 @@ dependencies:
   firebase_auth: ^0.15.0+1
   firebase_core: ^0.4.4+3
   transparent_image: ^1.0.0
-  fluttertoast: ^7.0.2
+  neon: ^0.0.1
 
 flutter_icons:
   android: true
