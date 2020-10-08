@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_fonts/google_fonts.dart';
-import 'firstChallenge.dart';
-
+import 'package:questar/story.dart';
+import 'package:questar/profile.dart';
 
 class MeniuPage extends StatelessWidget {
   @override
@@ -12,89 +9,100 @@ class MeniuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff33354a),
-        leading: new Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.account_circle,
-                color: Colors.white.withOpacity(0.7),
-          ),
+        title: Row(
+          children: <Widget>[
+            SizedBox(width: 20),
+            Container(
+              child: Text(
+                'QuestAR',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              width: 200,
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
+            ),
+          ],
         ),
       ),
       body: Stack(
-      children: <Widget>[
+        children: <Widget>[
           Container(
-          height: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xff2b2d42),
-          ),
-        ),
-        Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 70),
-            Align(
-              alignment: AlignmentDirectional.center,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xff2b2d42),
+            ),
+            child: ListView(
+              children: <Widget>[
+                Card(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 100),
+                  elevation: 5,
+                  color: Color(0xff252229),
                   child: Container(
-                    height: 200,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: Color(0xff33354a),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    margin: EdgeInsets.only(top: 10),
+                    height: 150,
+                    padding: EdgeInsets.only(left: 20),
+                    alignment: Alignment.topLeft,
                     child: Row(
-                        children: <Widget>[
-                          SizedBox(width: 20),
-                          Image.asset('assets/images/story1.png', height: 160),
-                          SizedBox(width: 20),
-                          Column(
-                              children: <Widget>[
-                                SizedBox(height: 20),
-                                Text(
-                                    "THE MISTERY OF THE 4 CLOCKS",
+                      children: <Widget>[
+                        Container(
+                          child: Image.asset(
+                            'assets/images/255689.p.jpg',
+                            height: 100,
+                          ),
+                        ),
+                        // SizedBox(width: 90),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  'The mistery of the clocks',
+                                  style: TextStyle(
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                              ),
+                              Container(
+                                child: FlatButton(
+                                  padding: EdgeInsets.only(top: 50),
+                                  child: Text(
+                                    'START',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 10,
-                                      letterSpacing: 0.5,
-                                    )),
-                                SizedBox(height: 100),
-                                RaisedButton(
-                                  padding: const EdgeInsets.all(0.0),
-                                  elevation: 2.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.white70, fontSize: 30),
                                   ),
-                                  onPressed: () {},
-                                  child: Ink(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xff3c6488),
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      ),
-                                      child: Container(
-                                        width: 150,
-                                        padding: EdgeInsets.all(12.0),
-                                        child: Text(
-                                          'START',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white.withOpacity(0.6),
-                                            letterSpacing: 1.5,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: 'OpenSans',
-                                          ),
-                                        ),
-                                      )
-                                  ),
-                                )
-                              ]
-                          )
-                        ]
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                StoryScreen()));
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-            )])
-      ]));
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
-
-

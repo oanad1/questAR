@@ -32,6 +32,7 @@ dependencies:
   firebase_core: ^0.4.4+3
   transparent_image: ^1.0.0
   neon: ^0.0.1
+  arcore_flutter_plugin:
 
 flutter_icons:
   android: true

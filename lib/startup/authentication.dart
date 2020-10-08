@@ -5,58 +5,59 @@ import 'package:questar/meniu.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<String> firebase_signup(
-    TextEditingController _emailController,
-    TextEditingController _userController,
-    TextEditingController _passwordController,
-    TextEditingController _rePasswordController,
-    BuildContext context,
-    ) async {
+  TextEditingController _emailController,
+  TextEditingController _userController,
+  TextEditingController _passwordController,
+  TextEditingController _rePasswordController,
+  BuildContext context,
+) async {
   if (_passwordController.text == _rePasswordController.text) {
     try {
-      FirebaseUser user = (await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
+      FirebaseUser user =
+          (await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
-        password: _passwordController.text,)).user;
+        password: _passwordController.text,
+      ))
+              .user;
 
       if (user != null) {
         UserUpdateInfo updateUser = UserUpdateInfo();
         updateUser.displayName = _userController.text;
         user.updateProfile(updateUser);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MeniuPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MeniuPage()));
       }
       return null;
     } catch (e) {
       print(e.message);
       String errorMsg;
-      switch(e.message){
+      switch (e.message) {
         case "Given String is empty or null":
-            errorMsg = "Please fill in all fields.";
-            break;
+          errorMsg = "Please fill in all fields.";
+          break;
         default:
-            errorMsg = e.message;
-            break;
+          errorMsg = e.message;
+          break;
       }
       return errorMsg;
-    };
+    }
+    ;
   } else {
     return "Passwords do not match.";
   }
 }
 
-Future<bool> firebase_signin(
-    TextEditingController _emailController,
-    TextEditingController _passwordController,
-    BuildContext context) async {
+Future<bool> firebase_signin(TextEditingController _emailController,
+    TextEditingController _passwordController, BuildContext context) async {
   try {
     final FirebaseUser user = (await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text))
+            .signInWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text))
         .user;
 
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => MeniuPage()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MeniuPage()));
     return false;
   } catch (e) {
     print(e.message);
